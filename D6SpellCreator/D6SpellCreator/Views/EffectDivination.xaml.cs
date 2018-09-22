@@ -157,7 +157,7 @@ namespace D6SpellCreator.Views
 
         private void SetValueLabel()
         {
-            SpellValue.Text = "Spell Difficulty: " + thisSpell.GetDifficulty();
+            SpellValue.Text = "Spell Difficulty: " + thisSpell.GetDifficultyAsync();
         }
     }
 }
