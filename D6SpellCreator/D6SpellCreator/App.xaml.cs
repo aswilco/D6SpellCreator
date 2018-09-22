@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using D6SpellCreator.Views;
+using System.IO;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace D6SpellCreator
@@ -12,7 +13,6 @@ namespace D6SpellCreator
         public App()
         {
             InitializeComponent();
-
 
             MainPage = new MainPage();
         }
@@ -31,5 +31,6 @@ namespace D6SpellCreator
         {
             // Handle when your app resumes
         }
+
     }
 }

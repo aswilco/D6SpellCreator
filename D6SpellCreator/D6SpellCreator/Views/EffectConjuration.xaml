@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D6SpellCreator.Views.EffectConjuration">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Next" Clicked="ToRangeDurationCastTime" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Effect" FontSize="Micro" />
+            <Editor x:Name="SpellEffect" Text="Spell Effect" FontSize="Micro" />
+            <Picker x:Name="Difficulty" SelectedIndexChanged="Difficulty_SelectedIndexChanged" FontSize="Micro"/>
+            <Label x:Name="DiceLabel" Text="Dice Value 1" FontSize="Micro"/>
+            <Slider x:Name="Dice" Maximum="20" Minimum="1" Value="1" ValueChanged="Dice_ValueChanged" Scale="1"/>
+            <Picker x:Name="WeightPicker" FontSize="Micro" IsVisible="False" SelectedIndexChanged="Difficulty_SelectedIndexChanged"/>
+            <Label x:Name="SpellValue" HorizontalTextAlignment="End" VerticalTextAlignment="End" FontSize="Micro"  />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

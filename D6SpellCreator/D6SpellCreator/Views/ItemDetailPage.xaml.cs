@@ -18,16 +18,19 @@ namespace D6SpellCreator.Views
             InitializeComponent();
 
             BindingContext = this.viewModel = viewModel;
+            foreach (Models.Spell.Component comp in viewModel.Item.Components)
+            {
+                Comps.Children.Add(new Label { Text = comp.component, FontSize = 10});
+            }
         }
 
         public ItemDetailPage()
         {
             InitializeComponent();
 
-            var item = new Item
+            var item = new Spell
             {
-                Text = "Item 1",
-                Description = "This is an item description."
+
             };
 
             viewModel = new ItemDetailViewModel(item);

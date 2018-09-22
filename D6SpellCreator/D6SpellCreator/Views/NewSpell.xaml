@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D6SpellCreator.Views.NewItemPage"
+             Title="New Spell">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Next" Clicked="ToEffects" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout Spacing="20" Padding="10">
+            <Label Text="Name" FontSize="Medium" />
+            <Entry x:Name ="SpellName" Text="New Spell" FontSize="Small" />
+            <Label Text="Skill Type" FontSize="Medium" />
+            <Picker x:Name="picker" Title="Select a Skill" SelectedIndexChanged="OnPickerSelectedIndexChanged">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Apportation</x:String>
+                        <x:String>Alteration</x:String>
+                        <x:String>Divination</x:String>
+                        <x:String>Conjuration</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

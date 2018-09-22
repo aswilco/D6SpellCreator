@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D6SpellCreator.Views.RangeDurationCastTime">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Next" Clicked="ToOtherAspects" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Range" FontSize="Medium" />
+            <Picker x:Name="rangePicker" Title="Range" SelectedIndexChanged="rangePicker_SelectedIndexChanged">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Self/Touch/Less Than One Meter</x:String>
+                        <x:String>5 Meters</x:String>
+                        <x:String>10 Meters</x:String>
+                        <x:String>100 Meters</x:String>
+                        <x:String>1000 Meters</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+            <Label Text="Duration" FontSize="Medium" />
+            <Picker x:Name="durationPicker" Title="Duration" SelectedIndexChanged="durationPicker_SelectedIndexChanged" >
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Instant</x:String>
+                        <x:String>1 Round</x:String>
+                        <x:String>2 Rounds</x:String>
+                        <x:String>1 Minute</x:String>
+                        <x:String>10 Minutes</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+            <Label Text="Casting Time" FontSize="Medium" />
+            <Picker x:Name="castTimePicker" Title="CastingTime" SelectedIndexChanged="castTimePicker_SelectedIndexChanged" >
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>1 Second</x:String>
+                        <x:String>1 round</x:String>
+                        <x:String>1 minute</x:String>
+                        <x:String>1 hour</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+            <Label x:Name="SpellValue" HorizontalTextAlignment="End" VerticalTextAlignment="End" FontSize="Micro"  />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

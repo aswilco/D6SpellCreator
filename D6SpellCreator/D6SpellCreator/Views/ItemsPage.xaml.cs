@@ -11,29 +11,41 @@ using D6SpellCreator.Models;
 using D6SpellCreator.Views;
 using D6SpellCreator.ViewModels;
 
+using System.IO;
+using D6SpellCreator.Persistence;
+using SQLite;
+using System.Collections.ObjectModel;
+
 namespace D6SpellCreator.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ItemsPage : ContentPage
     {
-        ItemsViewModel viewModel;
+        private static SQLiteAsyncConnection _connection;
+        private static ObservableCollection<Spell> _spells;
 
         public ItemsPage()
         {
             InitializeComponent();
+            _connection = DependencyService.Get<ISQLLiteDB>().GetConnection();
 
-            BindingContext = viewModel = new ItemsViewModel();
+            MessagingCenter.Subscribe<Incantations, Spell>(this, "AddItem", async (obj, item) =>
+            {
+                var newItem = item as Spell;
+                await _connection.InsertOrReplaceAsync(newItem);
+                _spells.Add(newItem);
+            });
+
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as Item;
+            var item = args.SelectedItem as Spell;
             if (item == null)
                 return;
 
             await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
 
-            // Manually deselect item.
             ItemsListView.SelectedItem = null;
         }
 
@@ -42,12 +54,15 @@ namespace D6SpellCreator.Views
             await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
+            await _connection.CreateTableAsync<Spell>();
+            var spells = await _connection.Table<Spell>().ToListAsync();
+            _spells = new ObservableCollection<Spell>(spells);
+            ItemsListView.ItemsSource = _spells;
             base.OnAppearing();
-
-            if (viewModel.Items.Count == 0)
-                viewModel.LoadItemsCommand.Execute(null);
         }
+
+      
     }
 }

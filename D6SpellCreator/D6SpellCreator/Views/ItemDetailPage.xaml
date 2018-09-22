@@ -3,10 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="D6SpellCreator.Views.ItemDetailPage"
              Title="{Binding Title}">
-    <StackLayout Spacing="20" Padding="15">
-        <Label Text="Text:" FontSize="Medium" />
-        <Label Text="{Binding Item.Text}" FontSize="Small"/>
-        <Label Text="Description:" FontSize="Medium" />
-        <Label Text="{Binding Item.Description}" FontSize="Small"/>
-    </StackLayout>
+    <ScrollView>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Name:" FontSize="Micro" />
+            <Label Text="{Binding Item.Name}" FontSize="Micro"/>
+            <Label Text="Description:" FontSize="Micro" />
+            <Label Text="{Binding Item.Description}" FontSize="Micro"/>
+            <Label Text="Skill:" FontSize="Micro" />
+            <Label Text="{Binding Item.SkillType1}" FontSize="Micro"/>
+            <Label Text="Difficulty:" FontSize="Micro" />
+            <Label Text="{Binding Item.Difficulty}" FontSize="Micro"/>
+            <Label Text="Range:" FontSize="Micro" />
+            <Label Text="{Binding Item.Range}" FontSize="Micro"/>
+            <Label Text="Duration:" FontSize="Micro" />
+            <Label Text="{Binding Item.Duration}" FontSize="Micro"/>
+            <Label Text="Casting Time:" FontSize="Micro" />
+            <Label Text="{Binding Item.CastingTime}" FontSize="Micro"/>
+            <Label Text="Gesture:" FontSize="Micro" />
+            <Label Text="{Binding Item.Gesture.gesture}" FontSize="Micro"/>
+            <Label Text="Incantation:" FontSize="Micro" />
+            <Label Text="{Binding Item.Incantation.incantation}" FontSize="Micro"/>
+            <Label Text="Components:" FontSize="Micro" />
+            <StackLayout x:Name="Comps">
+                
+            </StackLayout>
+
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

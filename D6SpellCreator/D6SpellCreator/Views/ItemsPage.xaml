@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="D6SpellCreator.Views.ItemsPage"
-              Title="{Binding Title}"
+              Title="Spells"
              x:Name="BrowseItemsPage">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Clicked="AddItem_Clicked">
@@ -16,12 +16,8 @@
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name="ItemsListView" 
-                ItemsSource="{Binding Items}"
                 VerticalOptions="FillAndExpand"
                  HasUnevenRows="true"
-                 RefreshCommand="{Binding LoadItemsCommand}"
-                 IsPullToRefreshEnabled="true"
-                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                  CachingStrategy="RecycleElement"
                  ItemSelected="OnItemSelected">
                 <ListView.ItemTemplate>
@@ -32,7 +28,15 @@
                        LineBreakMode="NoWrap" 
                        Style="{DynamicResource ListItemTextStyle}" 
                        FontSize="16" />
-                                <Label Text="{Binding Description}" 
+                                <Label Text="{Binding Name}" 
+                       LineBreakMode="NoWrap"
+                       Style="{DynamicResource ListItemDetailTextStyle}"
+                       FontSize="13" />
+                                <Label Text="Difficulty" 
+                       LineBreakMode="NoWrap"
+                       Style="{DynamicResource ListItemDetailTextStyle}"
+                       FontSize="13" />
+                                <Label Text="{Binding Difficulty}" 
                        LineBreakMode="NoWrap"
                        Style="{DynamicResource ListItemDetailTextStyle}"
                        FontSize="13" />

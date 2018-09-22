@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D6SpellCreator.Views.Gestures"
+             Title="Gestures">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Next" Clicked="ToIncantations" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout x:Name="GesturesStack">
+                <Label Text="Gesture"/>
+                <Entry x:Name ="Gesture" Text="None" FontSize='Micro' />
+                <Picker x:Name="GestureComplexity"  FontSize="Micro" SelectedIndexChanged="GestureComplexity_SelectedIndexChanged"></Picker>
+                <Label Text="Offensive"></Label>
+                <Switch x:Name="Offensive" Toggled="Offensive_Toggled"/>
+                <Label x:Name="SpellValue" HorizontalTextAlignment="End" VerticalTextAlignment="End" FontSize="Micro"  />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
