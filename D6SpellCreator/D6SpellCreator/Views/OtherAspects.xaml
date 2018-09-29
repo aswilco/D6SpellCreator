@@ -3,19 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="D6SpellCreator.Views.OtherAspects"
              Title="Components">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Next" Clicked="ToGestures" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-            <StackLayout x:Name="Components">
-                <Label Text="Components"/>
-                <Entry Text="" FontSize='Micro' />
-                <Picker x:Name="Complexity" FontSize="Micro" SelectedIndexChanged="Complexity_SelectedIndexChanged"></Picker>
-                <Label Text="Destroy on Use"></Label>
-                <Switch Toggled="SetSpellDifficulty"></Switch>
-            </StackLayout>
+                <Button Text="Next" Clicked="ToGestures" HorizontalOptions="Fill"/>
+                <StackLayout x:Name="Components">
+                </StackLayout>
             <Button Text="Add" Clicked="AddComponent"></Button>
             <Label x:Name="SpellValue" HorizontalTextAlignment="End" VerticalTextAlignment="End" FontSize="Micro"  />
             </StackLayout>

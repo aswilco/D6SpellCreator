@@ -2,11 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="D6SpellCreator.Views.EffectApportation">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Next" Clicked="ToRangeDurationCastTime" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
+            <Button Text="Next" Clicked="ToRangeDurationCastTime" HorizontalOptions="Fill"/>
             <Label Text="Effect" FontSize="Micro" />
             <Editor x:Name="SpellEffect" Text="Spell Effect" FontSize="Micro" />
             <Picker x:Name="Difficulty" SelectedIndexChanged="Difficulty_SelectedIndexChanged" FontSize="Micro"/>

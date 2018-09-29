@@ -39,9 +39,9 @@ namespace D6SpellCreator.Views
             DiceLabel.Text = "Dice Value " + Dice.Value.ToString();
             SetValueLabel();
         }
-        private void SetValueLabel()
+        private async void SetValueLabel()
         {
-            SpellValue.Text = "Spell Difficulty: " + thisSpell.GetDifficultyAsync();
+            SpellValue.Text = "Spell Difficulty: " + await thisSpell.GetDifficultyAsync();
         }
 
         private void Difficulty_SelectedIndexChanged(object sender, EventArgs e)

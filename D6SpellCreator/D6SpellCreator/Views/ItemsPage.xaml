@@ -4,17 +4,11 @@
              x:Class="D6SpellCreator.Views.ItemsPage"
               Title="Spells"
              x:Name="BrowseItemsPage">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Clicked="AddItem_Clicked">
-            <ToolbarItem.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="UWP" Value="add.png"/>
-                </OnPlatform>
-            </ToolbarItem.Icon>
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
+
         <StackLayout>
+            <Button Text="Add" Clicked="AddItem_Clicked" HorizontalOptions="Fill"/>
             <ListView x:Name="ItemsListView" 
                 VerticalOptions="FillAndExpand"
                  HasUnevenRows="true"

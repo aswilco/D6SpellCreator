@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using D6SpellCreator.Persistence;
+using D6SpellCreator.Views;
 using SQLite;
 using Xamarin.Forms;
 
@@ -13,7 +14,7 @@ namespace D6SpellCreator.Models
 
         public Spell()
         {
-            components = new List<int>();
+            components = new List<int?>();
         }
 
         private string name;
@@ -55,7 +56,8 @@ namespace D6SpellCreator.Models
         private int areaEffectValue = 0;
         private int speed;
         private string description;
-        private List<int> components;
+        private List<int?> components;
+        public string componentsString;
         private int? gesture;
         private int? incantation;
 
@@ -114,11 +116,43 @@ namespace D6SpellCreator.Models
         public string Range { get => range; set => range = value; }
         public string SideEffect { get => sideEffect; set => sideEffect = value; }
         public int RangeValue { get => rangeValue; set => rangeValue = value; }
-        public List<int> Components { get => components; set => components = value; }
+
+        [Ignore]
+        public List<int?> Components
+        {
+            get
+            {
+                return components;
+            }
+            set
+            {
+                components = value;
+                componentsString = "";
+                foreach (int? i in components)
+                {
+                    if (componentsString.Length == 0) componentsString += i;
+                    else componentsString += i + " ";
+                }
+            }
+        }
+
+        public string ComponentsString
+        {
+            get
+            {
+
+                return componentsString;
+            }
+            set
+            {
+                componentsString = value;
+            }
+        }
+
         public int Feedback { get => feedback; set => feedback = value; }
         public int AreaEffect { get => areaEffect; set => areaEffect = value; }
         public int Speed { get => speed; set => speed = value; }
-        public int? MyGesture { get => gesture; set => gesture = value; }
+        public int? MyGestureID { get => gesture; set => gesture = value; }
         public int? MyIncantation { get => incantation; set => incantation = value; }
         public int EffectValue { get => effectValue; set => effectValue = value; }
         public int CastingTimeValue { get => castingTimeValue; set => castingTimeValue = value; }
@@ -151,12 +185,12 @@ namespace D6SpellCreator.Models
         [Table("Components")]
         public class Component
         {
-            public int id;
-            public bool destroyedOnUse;
-            public string component;
-            public int complexity;
-            public int value = 0;
-            [PrimaryKey, AutoIncrement]
+            private bool destroyedOnUse;
+            private string componentName;
+            private int complexity;
+            private int value = 0;
+            private int id;
+            [PrimaryKey, NotNull]
             public int ID
             {
                 get
@@ -168,52 +202,65 @@ namespace D6SpellCreator.Models
                     id = value;
                 }
             }
+
+            public bool DestroyedOnUse { get => destroyedOnUse; set => destroyedOnUse = value; }
+            public string ComponentName { get => componentName; set => componentName = value; }
+            public int Complexity { get => complexity; set => complexity = value; }
+            public int Value { get => value; set => this.value = value; }
         }
         [Table("Gestures")]
         public class Gesture
         {
 
             private int id;
-            [PrimaryKey, AutoIncrement]
+            [PrimaryKey, NotNull]
             public int ID { get => id; set => id = value; }
-            public string gesture;
-            public int complexity;
-            public bool offensive;
-            public int value = 0;
+            public string GestureAction { get => gesture; set => gesture = value; }
+            public int Complexity { get => complexity; set => complexity = value; }
+            public bool Offensive { get => offensive; set => offensive = value; }
+            public int Value { get => value; set => this.value = value; }
+
+            private string gesture;
+            private int complexity;
+            private bool offensive;
+            private int value = 0;
         }
 
         [Table("Incantations")]
         public class Incantation
         {
             private int id;
+            [PrimaryKey, NotNull]
             public int ID { get => id; set => id = value; }
-            public string incantation;
-            public int complexity = 0;
-            public bool offensive = false;
-            public bool foreignLanguage = false;
-            public bool loud;
-            public int value = 0;
+            public string IncantationText { get => incantationText; set => incantationText = value; }
+            public bool Offensive { get => offensive; set => offensive = value; }
+            public bool ForeignLanguage { get => foreignLanguage; set => foreignLanguage = value; }
+            public bool Loud { get => loud; set => loud = value; }
+            public int Value { get => value; set => this.value = value; }
+
+            private string incantationText;
+            private bool offensive = false;
+            private bool foreignLanguage = false;
+            private bool loud;
+            private int value = 0;
         }
 
         public async Task<int> GetDifficultyAsync()
         {
-            int compValue = await GetComponentsValue();
-            difficulty = (int)Math.Ceiling((double)((EffectValue - await GetComponentsValue() + AreaEffectValue + rangeValue +
-                DurationValue - CastingTimeValue - (MyGesture != null ? await GetGestureValue() : 0) - (MyIncantation != null ? await GetIncantationValue() : 0)) / 2));
+            difficulty = (int)Math.Ceiling((double)((EffectValue + rangeValue  + DurationValue + AreaEffectValue - CastingTimeValue -
+                await GetComponentsValue()  - (MyGestureID != null ? await GetGestureValue() : 0) - (MyIncantation != null ? await GetIncantationValue() : 0)) / 2));
             return difficulty;
         }
 
         public async Task<int> GetComponentsValue()
         {
-            SQLiteAsyncConnection _connection = DependencyService.Get<ISQLLiteDB>().GetConnection();
-            await _connection.CreateTableAsync<Component>();
-            List<Component> componentList = await _connection.Table<Component>().ToListAsync();
+            List<Component> componentsDB = await ItemsPage.ConnectionSpells.Table<Component>().ToListAsync();
 
             int value = 0;
             foreach (int comp in Components)
             {
-                var component = componentList.Find(c => c.ID == comp);
-                value += component.value;
+                var component = componentsDB.Find(c => comp == c.ID);
+                if (component != null) value += component.Value * (component.DestroyedOnUse ? 2 : 1);
             }
             value = (int)(value * (Components.Count > 6 ? .75 : Components.Count > 3 ? .5 : 1));
             return value;
@@ -221,20 +268,22 @@ namespace D6SpellCreator.Models
 
         public async Task<int> GetGestureValue()
         {
-            SQLiteAsyncConnection _connection = DependencyService.Get<ISQLLiteDB>().GetConnection();
-            await _connection.CreateTableAsync<Gesture>();
-            List<Gesture> gestureList = await _connection.Table<Gesture>().ToListAsync();
+            List<Gesture> gestureList = await ItemsPage.ConnectionSpells.Table<Gesture>().ToListAsync();
+            Gesture thisgesture = gestureList.Find(g => g.ID == gesture);
+            if (thisgesture != null) return thisgesture.Value + (thisgesture.Offensive ? 1 : 0);
+            else return 0;
 
-            return gestureList.Find(g => g.ID == gesture).value;
         }
 
         public async Task<int> GetIncantationValue()
         {
-            SQLiteAsyncConnection _connection = DependencyService.Get<ISQLLiteDB>().GetConnection();
-            await _connection.CreateTableAsync<Incantation>();
-            List<Incantation> incantationList = await _connection.Table<Incantation>().ToListAsync();
 
-            return incantationList.Find(g => g.ID == incantation).value;
+            List<Incantation> incantationList = await ItemsPage.ConnectionSpells.Table<Incantation>().ToListAsync();
+            Incantation thisIncantation = incantationList.Find(g => g.ID == incantation);
+
+            if (thisIncantation != null) return thisIncantation.Value + (thisIncantation.Offensive ? 1 : 0) +
+                    (thisIncantation.ForeignLanguage ? 1 :0) + (thisIncantation.Loud ? 1 : 0);
+            else return 0;
         }
 
 

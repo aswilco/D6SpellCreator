@@ -5,6 +5,7 @@
              Title="{Binding Title}">
     <ScrollView>
         <StackLayout Spacing="20" Padding="15">
+            <Button Text="Back" Clicked="Button_Clicked" HorizontalOptions="Fill"/>
             <Label Text="Name:" FontSize="Micro" />
             <Label Text="{Binding Item.Name}" FontSize="Micro"/>
             <Label Text="Description:" FontSize="Micro" />

@@ -22,6 +22,7 @@ namespace D6SpellCreator.Views
 
         async void ToOtherAspects(object sender, EventArgs e)
         {
+            await ItemsPage.ConnectionSpells.UpdateAsync(thisSpell);
             await Navigation.PushModalAsync(new NavigationPage(new OtherAspects(thisSpell)));
         }
 
@@ -40,9 +41,9 @@ namespace D6SpellCreator.Views
             SetCastingTimeValue();
         }
 
-        private void SetValueLabel()
+        private async void SetValueLabel()
         {
-            SpellValue.Text = "Spell Difficulty: " + thisSpell.GetDifficultyAsync();
+            SpellValue.Text = "Spell Difficulty: " + await thisSpell.GetDifficultyAsync();
         }
 
         private void SetCastingTimeValue()

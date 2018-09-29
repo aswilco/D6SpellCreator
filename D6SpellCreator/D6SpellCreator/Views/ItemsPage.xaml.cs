@@ -21,18 +21,19 @@ namespace D6SpellCreator.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ItemsPage : ContentPage
     {
-        private static SQLiteAsyncConnection _connection;
         private static ObservableCollection<Spell> _spells;
+        private static SQLiteAsyncConnection connectionSpells;
+
+        public static SQLiteAsyncConnection ConnectionSpells { get => connectionSpells; set => connectionSpells = value; }
 
         public ItemsPage()
         {
             InitializeComponent();
-            _connection = DependencyService.Get<ISQLLiteDB>().GetConnection();
 
             MessagingCenter.Subscribe<Incantations, Spell>(this, "AddItem", async (obj, item) =>
             {
                 var newItem = item as Spell;
-                await _connection.InsertOrReplaceAsync(newItem);
+                await ConnectionSpells.InsertOrReplaceAsync(newItem);
                 _spells.Add(newItem);
             });
 
@@ -56,13 +57,14 @@ namespace D6SpellCreator.Views
 
         protected override async void OnAppearing()
         {
-            await _connection.CreateTableAsync<Spell>();
-            var spells = await _connection.Table<Spell>().ToListAsync();
+            ConnectionSpells = DependencyService.Get<ISQLLiteDB>().GetConnection();
+            await ConnectionSpells.CreateTableAsync<Spell>();
+            List<Spell> spells = await ConnectionSpells.Table<Spell>().ToListAsync();
             _spells = new ObservableCollection<Spell>(spells);
             ItemsListView.ItemsSource = _spells;
             base.OnAppearing();
         }
 
-      
+     
     }
 }

@@ -3,12 +3,15 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using D6SpellCreator.Views;
 using System.IO;
+using SQLite;
+using D6SpellCreator.Persistence;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace D6SpellCreator
 {
     public partial class App : Application
     {
+
 
         public App()
         {

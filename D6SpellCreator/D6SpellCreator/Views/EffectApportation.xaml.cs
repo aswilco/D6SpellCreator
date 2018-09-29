@@ -30,12 +30,13 @@ namespace D6SpellCreator.Views
         {
             thisSpell.Description = SpellEffect.Text;
             thisSpell.EffectValue = (Difficulty.SelectedIndex == 0 ? 2 : Difficulty.SelectedIndex == 1 ? 10 : 30);
+            await ItemsPage.ConnectionSpells.UpdateAsync(thisSpell);
             await Navigation.PushModalAsync(new NavigationPage(new RangeDurationCastTime(thisSpell)));
         }
 
-        private void SetValueLabel()
+        private async void SetValueLabel()
         {
-            SpellValue.Text = "Spell Difficulty: " + thisSpell.GetDifficultyAsync();
+            SpellValue.Text = "Spell Difficulty: " + await thisSpell.GetDifficultyAsync();
         }
 
         private void Difficulty_SelectedIndexChanged(object sender, EventArgs e)

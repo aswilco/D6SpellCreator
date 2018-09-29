@@ -110,10 +110,9 @@ namespace D6SpellCreator.Views
             return returnValue;
         }
 
-        void SetValueLabel()
+        private async void SetValueLabel()
         {
-            SpellValue.Text = "Spell Difficulty: " + thisSpell.GetDifficultyAsync();
-
+            SpellValue.Text = "Spell Difficulty: " + await thisSpell.GetDifficultyAsync();
         }
     }
 }
