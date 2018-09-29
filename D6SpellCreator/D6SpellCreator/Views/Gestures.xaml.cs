@@ -90,7 +90,7 @@ namespace D6SpellCreator.Views
             offensiveSwitch = new Switch();
             offensiveSwitch.Toggled += new EventHandler<ToggledEventArgs>(Offensive_Toggled);
             Button delete = new Button { Text = "Delete Gesture" };
-            delete.Clicked += new EventHandler(delete_clicked);
+            delete.Clicked += new EventHandler(Delete_clicked);
             GesturesStack.Children.Add(label);
             GesturesStack.Children.Add(gestureEntry);
             GesturesStack.Children.Add(complexityPicker);
@@ -100,7 +100,7 @@ namespace D6SpellCreator.Views
 
         }
 
-        private void delete_clicked(object sender, EventArgs e)
+        private void Delete_clicked(object sender, EventArgs e)
         {
             ((Button)sender).IsVisible = false;
             label.IsVisible = false;

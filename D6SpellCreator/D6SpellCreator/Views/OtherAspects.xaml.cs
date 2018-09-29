@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -14,13 +11,12 @@ namespace D6SpellCreator.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class OtherAspects : ContentPage
     {
-        List<Models.Spell.Component> thisComponentsList = new List<Models.Spell.Component>();
-        List<Models.Spell.Component> componentsList;
-        Models.Spell thisSpell;
+        private List<Models.Spell.Component> thisComponentsList = new List<Models.Spell.Component>();
+        private List<Models.Spell.Component> componentsList;
+        private Models.Spell thisSpell;
+        private string[] ComponentComplexity = { "Ordinary", "Very Common", "Common", "Uncommon", "Very Rare", "Extremely Rare", "Unique" };
 
-        string[] ComponentComplexity = { "Ordinary", "Very Common", "Common", "Uncommon", "Very Rare", "Extremely Rare", "Unique" };
-
-        OtherAspects()
+        private OtherAspects()
         {
             InitializeComponent();
         }
@@ -33,7 +29,7 @@ namespace D6SpellCreator.Views
             SetValueLabel();
         }
 
-        async void ToGestures(object sender, EventArgs e)
+        private async void ToGestures(object sender, EventArgs e)
         {
             SetSpellDifficulty(null, null);
 
@@ -41,15 +37,16 @@ namespace D6SpellCreator.Views
 
         }
 
-        int numComponent;
-        void AddComponent(object sender, EventArgs e)
+        private int numComponent;
+
+        private void AddComponent(object sender, EventArgs e)
         {
-            Entry entry = new Entry { Text = "None", FontSize= 10 };
+            Entry entry = new Entry { Text = "None", FontSize = 10 };
             entry.Unfocused += (object me, FocusEventArgs ea) => { SetSpellDifficulty(sender, e); };
-            Picker picker = new Picker { ItemsSource = ComponentComplexity,  SelectedIndex = 0, FontSize = 10};
+            Picker picker = new Picker { ItemsSource = ComponentComplexity, SelectedIndex = 0, FontSize = 10 };
             picker.SelectedIndex = 0;
             picker.SelectedIndexChanged += new EventHandler(Complexity_SelectedIndexChanged);
-            Label label = new Label { Text = "Destroy on Use", FontSize = 10};
+            Label label = new Label { Text = "Destroy on Use", FontSize = 10 };
             Xamarin.Forms.Switch destroy = new Xamarin.Forms.Switch();
             Button destroyButton = new Button { Text = "Destroy Component " + numComponent++ };
             destroyButton.Clicked += new EventHandler(DestroyButton_Clicked);
@@ -64,17 +61,16 @@ namespace D6SpellCreator.Views
 
         private async void DestroyButton_Clicked(object sender, EventArgs e)
         {
-            int number;
-            Int32.TryParse(((Button)sender).Text.Replace("Destroy Component ", ""), out number);
+            int.TryParse(((Button)sender).Text.Replace("Destroy Component ", ""), out int number);
             thisComponentsList.RemoveAt(number);
+            List<int?> tempList = new List<int?>();
             foreach (Models.Spell.Component comp in thisComponentsList)
             {
-                List<int?> tempList = new List<int?>();
                 tempList.Add(comp.ID);
-                thisSpell.Components = tempList;
                 await ItemsPage.ConnectionSpells.InsertOrReplaceAsync(comp);
 
             }
+            thisSpell.Components = tempList;
             Components.Children.RemoveAt((number * 5));
             Components.Children.RemoveAt((number * 5));
             Components.Children.RemoveAt((number * 5));
@@ -111,15 +107,14 @@ namespace D6SpellCreator.Views
                 }
 
             }
-
+            List<int?> tempList = new List<int?>();
             foreach (Models.Spell.Component comp in thisComponentsList)
             {
-                List<int?> tempList = new List<int?>();
                 tempList.Add(comp.ID);
-                thisSpell.Components = tempList;
                 await ItemsPage.ConnectionSpells.InsertOrReplaceAsync(comp);
 
             }
+            thisSpell.Components = tempList;
             SetValueLabel();
 
         }

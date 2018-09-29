@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AboutViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ItemDetailViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SplashScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\EffectAlteration.xaml.cs">
       <DependentUpon>EffectAlteration.xaml</DependentUpon>
       <SubType>Code</SubType>

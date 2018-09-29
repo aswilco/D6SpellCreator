@@ -16,8 +16,7 @@ namespace D6SpellCreator
         public App()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new D6SpellCreator.Views.SplashScreen());
         }
 
         protected override void OnStart()

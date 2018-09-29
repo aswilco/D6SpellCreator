@@ -99,7 +99,7 @@ namespace D6SpellCreator.Views
             Loud.IsVisible = true;
         }
 
-        private void deleteIncantaion_Clicked(object sender, EventArgs e)
+        private void DeleteIncantaion_Clicked(object sender, EventArgs e)
         {
             deleteIncantaion.IsVisible = false;
             AddIncantation.IsVisible = true;

@@ -8,7 +8,7 @@
             <Button Text="To List" Clicked="Preview" HorizontalOptions="Fill"/>
             <StackLayout x:Name="IncantationStack">
                 <Button x:Name="AddIncantation" Text="Add Incantation" Clicked="AddIncantation_Clicked"/>
-                <Button x:Name="deleteIncantaion" IsVisible="false" Text="Delete Incantation" Clicked="deleteIncantaion_Clicked"/>
+                <Button x:Name="deleteIncantaion" IsVisible="false" Text="Delete Incantation" Clicked="DeleteIncantaion_Clicked"/>
                 <Label x:Name="lblIncantation" Text="Incantation" IsVisible="false"/>
                 <Entry x:Name ="IncantationEntry" Text="None" FontSize='Micro' IsVisible="false" Unfocused="IncantationChanged"/>
                 <Picker x:Name="IncantationComplexity" IsVisible="false" FontSize="Micro" SelectedIndexChanged="IncantationChanged" SelectedIndex="0"></Picker>

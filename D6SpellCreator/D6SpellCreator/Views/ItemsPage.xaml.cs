@@ -41,8 +41,7 @@ namespace D6SpellCreator.Views
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as Spell;
-            if (item == null)
+            if (!(args.SelectedItem is Spell item))
                 return;
 
             await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
