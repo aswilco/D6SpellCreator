@@ -36,7 +36,6 @@ namespace D6SpellCreator.Views
                 await ConnectionSpells.InsertOrReplaceAsync(newItem);
                 _spells.Add(newItem);
             });
-
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
@@ -58,6 +57,9 @@ namespace D6SpellCreator.Views
         {
             ConnectionSpells = DependencyService.Get<ISQLLiteDB>().GetConnection();
             await ConnectionSpells.CreateTableAsync<Spell>();
+            ConnectionSpells.CreateTableAsync<Models.Spell.Component>();
+            ConnectionSpells.CreateTableAsync<Models.Spell.Incantation>();
+            ConnectionSpells.CreateTableAsync<Models.Spell.Gesture>();
             List<Spell> spells = await ConnectionSpells.Table<Spell>().ToListAsync();
             _spells = new ObservableCollection<Spell>(spells);
             ItemsListView.ItemsSource = _spells;

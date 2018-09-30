@@ -47,7 +47,7 @@ namespace D6SpellCreator.Models
 
         private string skillType;
         private string sideEffect;
-        private int effectValue = 0;
+        private double effectValue = 0;
         private int castingTimeValue = 0;
         private int rangeValue = 0;
         private int durationValue = 0;
@@ -154,7 +154,7 @@ namespace D6SpellCreator.Models
         public int Speed { get => speed; set => speed = value; }
         public int? MyGestureID { get => gesture; set => gesture = value; }
         public int? MyIncantation { get => incantation; set => incantation = value; }
-        public int EffectValue { get => effectValue; set => effectValue = value; }
+        public double EffectValue { get => effectValue; set => effectValue = value; }
         public int CastingTimeValue { get => castingTimeValue; set => castingTimeValue = value; }
         public int DurationValue { get => durationValue; set => durationValue = value; }
         public int AreaEffectValue { get => areaEffectValue; set => areaEffectValue = value; }
@@ -245,7 +245,7 @@ namespace D6SpellCreator.Models
             private int value = 0;
         }
 
-        public async Task<int> GetDifficultyAsync()
+        public async Task<double> GetDifficultyAsync()
         {
             difficulty = (int)Math.Ceiling((double)((EffectValue + rangeValue  + DurationValue + AreaEffectValue - CastingTimeValue -
                 await GetComponentsValue()  - (MyGestureID != null ? await GetGestureValue() : 0) - (MyIncantation != null ? await GetIncantationValue() : 0)) / 2));

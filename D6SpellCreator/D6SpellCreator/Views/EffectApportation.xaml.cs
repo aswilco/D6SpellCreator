@@ -29,7 +29,12 @@ namespace D6SpellCreator.Views
         async void ToRangeDurationCastTime(object sender, EventArgs e)
         {
             thisSpell.Description = SpellEffect.Text;
-            thisSpell.EffectValue = (Difficulty.SelectedIndex == 0 ? 2 : Difficulty.SelectedIndex == 1 ? 10 : 30);
+            thisSpell.EffectValue = (Difficulty.SelectedIndex == 0 ? 2 : Difficulty.SelectedIndex == 1 ? 10 : Difficulty.SelectedIndex == 2 ? 30 : 0);
+            if (thisSpell.EffectValue == 0)
+            {
+                await DisplayAlert("Effect is Empty", "Please choose an effect", "OK");
+                return;
+            }
             await ItemsPage.ConnectionSpells.UpdateAsync(thisSpell);
             await Navigation.PushModalAsync(new NavigationPage(new RangeDurationCastTime(thisSpell)));
         }
@@ -41,7 +46,7 @@ namespace D6SpellCreator.Views
 
         private void Difficulty_SelectedIndexChanged(object sender, EventArgs e)
         {
-            thisSpell.EffectValue = (Difficulty.SelectedIndex == 0 ? 2 : Difficulty.SelectedIndex == 1 ? 10 : 30);
+            thisSpell.EffectValue = (Difficulty.SelectedIndex == 0 ? 2 : Difficulty.SelectedIndex == 1 ? 10 : Difficulty.SelectedIndex == 2 ? 30 : 0);
             SetValueLabel();
         }
     }

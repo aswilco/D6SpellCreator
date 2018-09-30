@@ -23,6 +23,11 @@ namespace D6SpellCreator.Views
         async void ToOtherAspects(object sender, EventArgs e)
         {
             await ItemsPage.ConnectionSpells.UpdateAsync(thisSpell);
+            if (durationPicker.SelectedItem == null || rangePicker.SelectedItem == null || castTimePicker.SelectedItem == null)
+            {
+                await DisplayAlert("No Range, Duration, or Cast Time", "Please select range, duration, and cast time", "OK");
+                return;
+            }
             await Navigation.PushModalAsync(new NavigationPage(new OtherAspects(thisSpell)));
         }
 

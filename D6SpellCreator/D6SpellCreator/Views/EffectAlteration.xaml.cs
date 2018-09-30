@@ -26,7 +26,12 @@ namespace D6SpellCreator.Views
         async void ToRangeDurationCastTime(object sender, EventArgs e)
         {
             thisSpell.Description = SpellEffect.Text;
-            thisSpell.EffectValue = (int)(Dice.Value * (Difficulty.SelectedIndex == 0 ? 4.5 : 18));
+            thisSpell.EffectValue = (int)(Dice.Value * (Difficulty.SelectedIndex == 0 ? 4.5 : Difficulty.SelectedIndex == 0 ? 18 : 0));
+            if (thisSpell.EffectValue == 0)
+            {
+                await DisplayAlert("Effect is Empty", "Please choose an effect", "OK");
+                return;
+            }
             await Navigation.PushModalAsync(new NavigationPage(new RangeDurationCastTime(thisSpell)));
         }
         int StepValue = 1;
@@ -35,7 +40,7 @@ namespace D6SpellCreator.Views
         {
             var newStep = Math.Round(e.NewValue / StepValue);
             Dice.Value = newStep * StepValue;
-            thisSpell.EffectValue = (int)(Dice.Value * (Difficulty.SelectedIndex == 0 ? 4.5 : 18));
+            thisSpell.EffectValue = (int)(Dice.Value * (Difficulty.SelectedIndex == 0 ? 4.5 : Difficulty.SelectedIndex == 0 ? 18 : 0));
             DiceLabel.Text = "Dice Value " + Dice.Value.ToString();
             SetValueLabel();
         }
@@ -46,7 +51,7 @@ namespace D6SpellCreator.Views
 
         private void Difficulty_SelectedIndexChanged(object sender, EventArgs e)
         {
-            thisSpell.EffectValue = (int)(Dice.Value * (Difficulty.SelectedIndex == 0 ? 4.5 : 18));
+            thisSpell.EffectValue = (int)(Dice.Value * (Difficulty.SelectedIndex == 0 ? 4.5 : Difficulty.SelectedIndex == 0 ? 18 : 0));
             SetValueLabel();
         }
     }

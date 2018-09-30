@@ -12,7 +12,6 @@ namespace D6SpellCreator
     public partial class App : Application
     {
 
-
         public App()
         {
             InitializeComponent();

@@ -13,6 +13,7 @@
             <Label Text="Effect Value"/>
             <Label x:Name="DiceLabel" Text=""/>
             <Slider x:Name="Dice" Maximum="20" Minimum="1" Value="1" ValueChanged="Dice_ValueChanged" Scale="1"/>
+            <Picker x:Name="SearchRangePicker" FontSize="Micro" IsVisible ="False" IsEnabled="False" SelectedIndexChanged="Difficulty_SelectedIndexChanged" />
             <Label x:Name="SpellValue" HorizontalTextAlignment="End" VerticalTextAlignment="End" FontSize="Micro"  />
         </StackLayout>
     </ContentPage.Content>

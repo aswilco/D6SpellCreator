@@ -21,6 +21,14 @@ namespace D6SpellCreator.Views
         "Search an Area With a Search of 4D"
         };
 
+        string[] SearchValues =
+        {
+            "1 Meter",
+            "Less than 10 Meters",
+            "Less than 100 Meters",
+            "Less than 1000 Meters"
+        };
+
         string[] TimeStepValue =
         {
             "Minutes",
@@ -46,12 +54,18 @@ namespace D6SpellCreator.Views
             InitializeComponent();
             Difficulty.ItemsSource = DivinationEffects;
             Step.ItemsSource = TimeStepValue;
+            SearchRangePicker.ItemsSource = SearchValues;
         }
 
         async void ToRangeDurationCastTime(object sender, EventArgs e)
         {
             thisSpell.Description = SpellEffect.Text;
             thisSpell.EffectValue = GetDivinationEffectValue();
+            if (thisSpell.EffectValue == 0)
+            {
+                await DisplayAlert("Effect is Empty", "Please choose an effect", "OK");
+                return;
+            }
             await Navigation.PushModalAsync(new NavigationPage(new RangeDurationCastTime(thisSpell)));
         }
         int StepValue = 1;
@@ -61,7 +75,6 @@ namespace D6SpellCreator.Views
             var newStep = Math.Round(e.NewValue / StepValue);
             Dice.Value = newStep * StepValue;
             DiceLabel.Text = Dice.Value.ToString() + sliderLabel;
-            thisSpell.Description = SpellEffect.Text;
             thisSpell.EffectValue = GetDivinationEffectValue();
             SetValueLabel();
         }
@@ -71,6 +84,11 @@ namespace D6SpellCreator.Views
             Step.IsEnabled = true;
             if (Difficulty.SelectedIndex == 0)
             {
+                Dice.IsEnabled = false;
+                Dice.IsVisible = false;
+                SearchRangePicker.IsVisible = true;
+                SearchRangePicker.IsEnabled = true;
+
                 sliderLabel = Step.SelectedItem != null ? Step.SelectedItem.ToString() + " In the Past or Future " : "";
                 Step.ItemsSource = TimeStepValue;
                 if (Difficulty.SelectedIndex == 0) Step.SelectedIndex = 0;
@@ -79,9 +97,13 @@ namespace D6SpellCreator.Views
             }
             else
             {
+                Dice.IsEnabled = false;
+                Dice.IsVisible = false;
+                SearchRangePicker.IsVisible = true;
+                SearchRangePicker.IsEnabled = true;
+
                 Step.ItemsSource = SearchValue;
                 sliderLabel = Step.SelectedItem != null ? Step.SelectedItem.ToString() + " Search Radius in Meters " : "";
-                Dice.Maximum = 1000;
             }
             thisSpell.Description = SpellEffect.Text;
             thisSpell.EffectValue = GetDivinationEffectValue();
@@ -97,27 +119,26 @@ namespace D6SpellCreator.Views
                 else if (Difficulty.SelectedIndex == 1) return 18 * (int)Dice.Value;
                 else return 25 * (int)Dice.Value;
             }
-            else
+            else if (Difficulty.SelectedIndex == 1)
             {
-                int value = (int)Dice.Value;
+                int value = (int)SearchRangePicker.SelectedIndex;
                 if (Step.SelectedIndex == 0)
                 {
-                    if (value == 1) return 18;
-                    else if (value <= 10) return 27;
-                    else if (value <= 100) return 37;
-                    else return 47;
+                    if (value == 0) return 18;
+                    else if (value == 1) return 27;
+                    else if (value == 2) return 37;
+                    else if (value == 3) return 47;
                 }
-                else
+                else if (Step.SelectedIndex == 1)
                 {
-                    if (value == 1) return 19;
-                    else if (value <= 10) return 32;
-                    else if (value <= 100) return 47;
-                    else return 62;
-
+                    if (value == 0) return 19;
+                    else if (value == 1) return 32;
+                    else if (value == 2) return 47;
+                    else if (value == 3) return 62;
                 }
+                else return 0;
             }
-
-
+            return 0;
         }
 
         private void TimeStep_SelectedIndexChanged(object sender, EventArgs e)
@@ -147,8 +168,6 @@ namespace D6SpellCreator.Views
             else
             {
                 sliderLabel = " Meters Search Radius";
-                Dice.Maximum = 1000;
-                Dice.Value = 1;
             }
             thisSpell.Description = SpellEffect.Text;
             thisSpell.EffectValue = GetDivinationEffectValue();

@@ -23,6 +23,12 @@ namespace D6SpellCreator.Views
         async void ToEffects(object sender, EventArgs e)
         {
             spell.Name = SpellName.Text;
+            if (picker.SelectedItem == null)
+            {
+                await DisplayAlert("No Skill Selected", "Please select a skill for your spell", "OK");
+                return;
+            }
+
             switch (spell.Skill)
             {
                 case Spell.SkillType.Apportation:

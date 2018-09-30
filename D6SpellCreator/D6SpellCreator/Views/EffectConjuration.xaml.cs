@@ -50,6 +50,11 @@ namespace D6SpellCreator.Views
         {
             thisSpell.Description = SpellEffect.Text;
             thisSpell.EffectValue = GetConjurationEffectValue();
+            if (thisSpell.EffectValue == 0)
+            {
+                await DisplayAlert("Effect is Empty", "Please choose an effect", "OK");
+                return;
+            }
             await Navigation.PushModalAsync(new NavigationPage(new RangeDurationCastTime(thisSpell)));
         }
         int StepValue = 1;
@@ -88,7 +93,7 @@ namespace D6SpellCreator.Views
 
         private int GetConjurationEffectValue()
         {
-            int returnValue;
+            int returnValue = 0;
             if (Difficulty.SelectedIndex <= 1) returnValue = 3 * (int)Dice.Value;
             else if (Difficulty.SelectedIndex == 2)
             {
@@ -98,7 +103,7 @@ namespace D6SpellCreator.Views
                 else if (value == 2) returnValue = 10;
                 else returnValue = 15;
             }
-            else
+            else if (Difficulty.SelectedIndex <= 3)
             {
                 
                 int value = WeightPicker.SelectedIndex;
@@ -107,6 +112,7 @@ namespace D6SpellCreator.Views
                 else if (value == 2) returnValue = 14;
                 else returnValue = 19;
             }
+            
             return returnValue;
         }
 
