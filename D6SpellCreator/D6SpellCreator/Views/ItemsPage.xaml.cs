@@ -23,13 +23,13 @@ namespace D6SpellCreator.Views
     {
         private static ObservableCollection<Spell> _spells;
         private static SQLiteAsyncConnection connectionSpells;
+        //public static Audio audio = new Audio();
 
         public static SQLiteAsyncConnection ConnectionSpells { get => connectionSpells; set => connectionSpells = value; }
 
         public ItemsPage()
         {
             InitializeComponent();
-
             MessagingCenter.Subscribe<Incantations, Spell>(this, "AddItem", async (obj, item) =>
             {
                 var newItem = item as Spell;
@@ -50,6 +50,9 @@ namespace D6SpellCreator.Views
 
         async void AddItem_Clicked(object sender, EventArgs e)
         {
+            var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+            player.Load("dice.mp3");
+            player.Play();
             await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
         }
 
@@ -57,6 +60,7 @@ namespace D6SpellCreator.Views
         {
             ConnectionSpells = DependencyService.Get<ISQLLiteDB>().GetConnection();
             await ConnectionSpells.CreateTableAsync<Spell>();
+           
             ConnectionSpells.CreateTableAsync<Models.Spell.Component>();
             ConnectionSpells.CreateTableAsync<Models.Spell.Incantation>();
             ConnectionSpells.CreateTableAsync<Models.Spell.Gesture>();
@@ -66,6 +70,9 @@ namespace D6SpellCreator.Views
             base.OnAppearing();
         }
 
-     
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new AboutPage());
+        }
     }
 }

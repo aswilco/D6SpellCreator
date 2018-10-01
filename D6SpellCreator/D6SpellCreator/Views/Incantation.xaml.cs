@@ -34,6 +34,9 @@ namespace D6SpellCreator.Views
             IncantationChanged(null, null);
             thisSpell.ID = await ItemsPage.ConnectionSpells.Table<Models.Spell>().CountAsync();
             MessagingCenter.Send(this, "AddItem", thisSpell);
+            var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+            player.Load("dice.mp3");
+            player.Play();
             Application.Current.MainPage = navPage;
         }
 

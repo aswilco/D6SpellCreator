@@ -25,7 +25,9 @@ namespace D6SpellCreator.Views
 
         private async void ToIncantations(object sender, EventArgs e)
         {
-            var navPage = new NavigationPage(new ItemsPage());
+            var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+            player.Load("dice.mp3");
+            player.Play();
             await Navigation.PushModalAsync(new NavigationPage(new Incantations(thisSpell)));
 
         }
@@ -47,19 +49,21 @@ namespace D6SpellCreator.Views
 
             if (thisSpell.MyGestureID == null && gestureEntry.Text != "None")
             {
-                thisGesture = new Gesture { ID = await ItemsPage.ConnectionSpells.Table<Gesture>().CountAsync(), GestureAction = gestureEntry.Text, Complexity = complexityPicker.SelectedIndex, Offensive = offensiveSwitch.IsToggled };
+                thisGesture = new Gesture { ID = await ItemsPage.ConnectionSpells.Table<Gesture>().CountAsync(), GestureAction = gestureEntry.Text, Complexity = complexityPicker.SelectedIndex +1, Offensive = offensiveSwitch.IsToggled };
                 thisSpell.MyGestureID = thisGesture.ID;
-                int x = await ItemsPage.ConnectionSpells.InsertOrReplaceAsync(thisGesture);
                 thisGesture.Value = thisGesture.Complexity + (thisGesture.Offensive ? 1 : 0);
+                await ItemsPage.ConnectionSpells.InsertOrReplaceAsync(thisGesture);
+                
 
             }
             else if (thisGesture != null)
             {
                 thisGesture.GestureAction = gestureEntry.Text;
-                thisGesture.Complexity = complexityPicker.SelectedIndex;
+                thisGesture.Complexity = complexityPicker.SelectedIndex +1;
                 thisSpell.MyGestureID = thisGesture.ID;
-                int x = await ItemsPage.ConnectionSpells.InsertOrReplaceAsync(thisGesture);
                 thisGesture.Value = thisGesture.Complexity + (thisGesture.Offensive ? 1 : 0);
+                await ItemsPage.ConnectionSpells.InsertOrReplaceAsync(thisGesture);
+                
 
             }
             SetValueLabel();

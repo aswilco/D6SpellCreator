@@ -28,7 +28,9 @@ namespace D6SpellCreator.Views
                 await DisplayAlert("No Skill Selected", "Please select a skill for your spell", "OK");
                 return;
             }
-
+            var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+            player.Load("dice.mp3");
+            player.Play();
             switch (spell.Skill)
             {
                 case Spell.SkillType.Apportation:

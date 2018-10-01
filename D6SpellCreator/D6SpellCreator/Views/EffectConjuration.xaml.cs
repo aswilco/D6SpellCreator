@@ -55,6 +55,9 @@ namespace D6SpellCreator.Views
                 await DisplayAlert("Effect is Empty", "Please choose an effect", "OK");
                 return;
             }
+            var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+            player.Load("dice.mp3");
+            player.Play();
             await Navigation.PushModalAsync(new NavigationPage(new RangeDurationCastTime(thisSpell)));
         }
         int StepValue = 1;

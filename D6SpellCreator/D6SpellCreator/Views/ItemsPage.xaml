@@ -4,11 +4,9 @@
              x:Class="D6SpellCreator.Views.ItemsPage"
               Title="Spells"
              x:Name="BrowseItemsPage">
-
     <ContentPage.Content>
-
         <StackLayout>
-            <Button Text="Add" Clicked="AddItem_Clicked" HorizontalOptions="Fill"/>
+            <Button Text="Add" Clicked="AddItem_Clicked" HorizontalOptions="Fill" />
             <ListView x:Name="ItemsListView" 
                 VerticalOptions="FillAndExpand"
                  HasUnevenRows="true"
@@ -39,6 +37,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <Button Text="About" Clicked="Button_Clicked" HorizontalOptions="Fill" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

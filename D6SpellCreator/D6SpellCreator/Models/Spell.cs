@@ -270,7 +270,7 @@ namespace D6SpellCreator.Models
         {
             List<Gesture> gestureList = await ItemsPage.ConnectionSpells.Table<Gesture>().ToListAsync();
             Gesture thisgesture = gestureList.Find(g => g.ID == gesture);
-            if (thisgesture != null) return thisgesture.Value + (thisgesture.Offensive ? 1 : 0);
+            if (thisgesture != null) return thisgesture.Value;
             else return 0;
 
         }

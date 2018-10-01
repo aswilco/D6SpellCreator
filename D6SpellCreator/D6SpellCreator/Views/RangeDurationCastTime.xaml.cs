@@ -28,6 +28,9 @@ namespace D6SpellCreator.Views
                 await DisplayAlert("No Range, Duration, or Cast Time", "Please select range, duration, and cast time", "OK");
                 return;
             }
+            var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+            player.Load("dice.mp3");
+            player.Play();
             await Navigation.PushModalAsync(new NavigationPage(new OtherAspects(thisSpell)));
         }
 

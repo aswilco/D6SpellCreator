@@ -35,6 +35,9 @@ namespace D6SpellCreator.Views
                 await DisplayAlert("Effect is Empty", "Please choose an effect", "OK");
                 return;
             }
+            var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+            player.Load("dice.mp3");
+            player.Play();
             await ItemsPage.ConnectionSpells.UpdateAsync(thisSpell);
             await Navigation.PushModalAsync(new NavigationPage(new RangeDurationCastTime(thisSpell)));
         }

@@ -32,6 +32,9 @@ namespace D6SpellCreator.Views
         private async void ToGestures(object sender, EventArgs e)
         {
             SetSpellDifficulty(null, null);
+            var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+            player.Load("dice.mp3");
+            player.Play();
 
             await Navigation.PushModalAsync(new NavigationPage(new Gestures(thisSpell)));
 
